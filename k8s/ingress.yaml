@@ -1,0 +1,48 @@
+# ============================================================
+# DeployTracer - Ingress (Traefik)
+# ============================================================
+# Routes:
+#   /        → Frontend (port 80)
+#   /api     → Backend (port 3001)
+#   /ws      → Backend WebSocket (port 3001)
+# ============================================================
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: deploy-tracer
+  namespace: deploy-tracer
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - deploytracer.yourdomain.com  # ⚠️ Change to your domain
+      secretName: deploy-tracer-tls
+  rules:
+    - host: deploytracer.yourdomain.com  # ⚠️ Change to your domain
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: deploy-tracer
+                port:
+                  number: 3001
+          - path: /ws
+            pathType: Prefix
+            backend:
+              service:
+                name: deploy-tracer
+                port:
+                  number: 3001
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: deploy-tracer
+                port:
+                  number: 80

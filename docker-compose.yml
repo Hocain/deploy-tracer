@@ -1,0 +1,44 @@
+# ============================================================
+# DeployTracer - Docker Compose (Local Development)
+# ============================================================
+# Run: docker-compose up --build
+# Frontend: http://localhost:5173
+# Backend:  http://localhost:3001
+# ============================================================
+
+version: '3.8'
+
+services:
+  # Backend - Node.js API + WebSocket server
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - FRONTEND_URL=http://localhost:5173
+      - GITHUB_WEBHOOK_SECRET=${GITHUB_WEBHOOK_SECRET:-dev-secret}
+    volumes:
+      # Persist SQLite database between restarts
+      - db-data:/data
+      # Hot reload in development
+      - ./backend:/app
+      - /app/node_modules
+    restart: unless-stopped
+
+  # Frontend - React + Vite dev server
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  db-data:

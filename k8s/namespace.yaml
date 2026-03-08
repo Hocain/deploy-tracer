@@ -1,0 +1,22 @@
+# ============================================================
+# DeployTracer - Namespace
+# ============================================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: deploy-tracer
+---
+# ============================================================
+# DeployTracer - Secrets
+# ============================================================
+# ⚠️  Replace base64 values with your actual secrets:
+#     echo -n "your-secret" | base64
+# ============================================================
+apiVersion: v1
+kind: Secret
+metadata:
+  name: deploy-tracer-secrets
+  namespace: deploy-tracer
+type: Opaque
+data:
+  github-webhook-secret: eW91ci13ZWJob29rLXNlY3JldA==  # "your-webhook-secret" in base64

@@ -1,0 +1,20 @@
+# ============================================================
+# DeployTracer - Kubernetes Service
+# ============================================================
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploy-tracer
+  namespace: deploy-tracer
+spec:
+  selector:
+    app: deploy-tracer
+  ports:
+    - name: frontend
+      port: 80
+      targetPort: 80
+    - name: backend
+      port: 3001
+      targetPort: 3001
+  type: ClusterIP
