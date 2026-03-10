@@ -40,7 +40,7 @@ variable "github_org" {
   description = "Your GitHub username"
   type        = string
   # ⚠️  CHANGE THIS to your GitHub username
-  default     = "your-github-username"
+  default     = "Hocain"
 }
 
 variable "github_repo" {
@@ -87,11 +87,11 @@ resource "aws_ecr_lifecycle_policy" "cleanup" {
 # GitHub OIDC Provider (Keyless Authentication)
 # ----------------------------------------------------------
 # Uncomment below if OIDC provider doesn't exist in your account:
-# resource "aws_iam_openid_connect_provider" "github" {
-#   url             = "https://token.actions.githubusercontent.com"
-#   client_id_list  = ["sts.amazonaws.com"]
-#   thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
-# }
+ resource "aws_iam_openid_connect_provider" "github" {
+   url             = "https://token.actions.githubusercontent.com"
+   client_id_list  = ["sts.amazonaws.com"]
+   thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
+ }
 
 # ----------------------------------------------------------
 # IAM Role for GitHub Actions
@@ -104,7 +104,7 @@ resource "aws_iam_role" "github_actions" {
     Statement = [{
       Effect    = "Allow"
       Principal = {
-        Federated = "arn:aws:iam::oidc-provider/token.actions.githubusercontent.com"
+        Federated = "arn:aws:iam::026419734220:oidc-provider/token.actions.githubusercontent.com"
       }
       Action = "sts:AssumeRoleWithWebIdentity"
       Condition = {

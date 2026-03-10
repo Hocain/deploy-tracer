@@ -26,7 +26,7 @@ permissions:
 env:
   AWS_REGION: eu-north-1
   ECR_REPOSITORY: deploy-tracer
-  DEPLOY_TRACER_URL: https://deploytracer.yourdomain.com  # ⚠️ Change this
+  DEPLOY_TRACER_URL: http://13.63.153.232:3001  # ⚠️ Change this
   K8S_NAMESPACE: deploy-tracer
 
 jobs:
