@@ -9,7 +9,7 @@ import Header from './components/Header';
 
 // Determine WebSocket URL based on environment
 const WS_URL = import.meta.env.PROD
-  ? `wss://${window.location.host}/ws`
+  ? `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/ws`
   : 'ws://localhost:3001/ws';
 
 const API_URL = import.meta.env.PROD ? '' : 'http://localhost:3001';
@@ -31,7 +31,7 @@ export default function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: 'feat: add real-time pipeline tracking',
-          author: 'mayank',
+          author: 'aditya',
           branch: 'main',
           simulate: true  // Auto-simulate the stages
         })
